@@ -1,10 +1,10 @@
 <h1 align="center">
   <br>
-  <a href="https://webtorrent.io">
-    <img src="https://webtorrent.io/img/WebTorrent.png" alt="WebTorrent" width="200">
+  <a href="https://github.com/refreex/">
+    <img src="/static/WebTorrent.png" alt="Refreex" width="200">
   </a>
   <br>
-  WebTorrent Desktop
+  Refreex Desktop
   <br>
   <br>
 </h1>
@@ -33,23 +33,11 @@ https://material-ui.com/getting-started
 https://material.io/tools/icons/?style=baseline
 
 ## Install
-
-### Recommended Install
-
-Download the latest version of WebTorrent Desktop from
-[the official website](https://webtorrent.io/desktop/):
-
-### [✨ Download WebTorrent Desktop ✨](https://webtorrent.io/desktop/)
+### [✨ Download Refreex Desktop ✨]
 
 ### Advanced Install
 
 - Download specific installer files from the [GitHub releases](https://github.com/webtorrent/webtorrent-desktop/releases) page.
-
-- Use [Homebrew-Cask](https://github.com/caskroom/homebrew-cask) to install from the command line:
-
-  ```
-  $ brew cask install webtorrent
-  ```
 
 - Try the (unstable) development version by cloning the Git repository. See the
   ["How to Contribute"](#how-to-contribute) instructions.
@@ -66,7 +54,7 @@ Download the latest version of WebTorrent Desktop from
 ### Get the code
 
 ```
-$ git clone https://github.com/webtorrent/webtorrent-desktop.git
+$ git clone https://github.com/refreex/refreex-webtorrent-desktop.git
 $ cd webtorrent-desktop
 $ npm install
 ```
