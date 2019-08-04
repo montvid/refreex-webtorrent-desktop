@@ -93,7 +93,7 @@ I been thinking for the future that the `Refreex Playlists` should be created us
 
 ```
 $ git clone https://github.com/refreex/refreex-webtorrent-desktop.git
-$ cd webtorrent-desktop
+$ cd refreex-webtorrent-desktop
 $ npm install
 ```
 
