@@ -31,7 +31,10 @@
 
 ## Refreex Playlists
 
-The difference between this torrent client and many others including the same WebTorrent is that this app was specially for music. Creating, modifying and then share playlists, giving the chance to the people to get modern ways of sharing culture in a easy way without restrictions.
+The difference between this torrent client and many others including the same WebTorrent is that this app is specially for music. Creating, modifying and share your playlists, with torrents now is possible.
+
+Giving the chance to the people of modern ways of sharing culture in a easy way without restrictions.
+
 I created a format for this playlists in JSON, to keep it easy and not get confused with other kind of playlists the name of this kind of list is *Refreex Playlist*
 
 The *Refreex Playlists* are created in JSON format like this:
@@ -72,14 +75,17 @@ The *Refreex Playlists* are created in JSON format like this:
 }
 ```
 
-As we can see the idea is simple but effective. The *Refreex Playlist* (JSON) has a just two propertie.
+As we can see the idea is simple but effective. The *Refreex Playlist* (JSON) has just two properties.
 
-* The first one is `id` this one must be unique and we cannot have two *Refreex Playlist* with the same `id`. Is the name of the playlist.
+* The first one is `id` this one must be unique and we cannot have two *Refreex Playlist* with the same `id` in the Refreex App. Is the name of the playlist.
 
 * The second one is `torrents` this one is an array of objects. 
 Those objects are the torrents indeed and they are composed by two properties the `infoHash` of a torrent (you can get it from the magnet link) and the `files` that you want to add to the playlist
 
 
+**For the future / ideas:**
+We can share at the moment the playlists in plain text, json files and the app will know how to read it parse it and download it.
+I been thinking for the future that the `Refreex Playlists` should be created using DAT protocol to allow mutation of the playlist (torrents are immutables).
 
 ## How to Contribute
 
