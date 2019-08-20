@@ -72,7 +72,8 @@ module.exports = class TorrentList extends React.Component {
         style={style}
         className={classes.join(' ')}
         onContextMenu={infoHash && dispatcher('openTorrentContextMenu', infoHash)}
-        onClick={infoHash && dispatcher('toggleSelectTorrent', infoHash)}>
+        onClick={infoHash && dispatcher('toggleSelectTorrent', infoHash)}
+      >
         {this.renderTorrentMetadata(torrentSummary)}
         {infoHash ? this.renderTorrentButtons(torrentSummary) : null}
         {isSelected ? this.renderTorrentDetails(torrentSummary) : null}
@@ -150,7 +151,8 @@ module.exports = class TorrentList extends React.Component {
           }}
           checked={isActive}
           onClick={stopPropagation}
-          onCheck={dispatcher('toggleTorrent', infoHash)} />
+          onCheck={dispatcher('toggleTorrent', infoHash)}
+        />
       )
     }
 
@@ -254,8 +256,9 @@ module.exports = class TorrentList extends React.Component {
         <i
           key='play-button'
           title='Start streaming'
-          className={'icon play'}
-          onClick={dispatcher('playFile', infoHash)}>
+          className='icon play'
+          onClick={dispatcher('playFile', infoHash)}
+        >
           play_circle_outline
         </i>
       )
@@ -268,7 +271,8 @@ module.exports = class TorrentList extends React.Component {
           key='delete-button'
           className='icon delete'
           title='Remove torrent'
-          onClick={dispatcher('confirmDeleteTorrent', infoHash, false)}>
+          onClick={dispatcher('confirmDeleteTorrent', infoHash, false)}
+        >
           close
         </i>
       </div>
@@ -414,6 +418,36 @@ module.exports = class TorrentList extends React.Component {
       let fileOnPlaylist = album.files.find(el => el === file.name)
       return fileOnPlaylist ? true : false
     }
+<<<<<<< HEAD
+=======
+    // TODO: add a css 'disabled' class to indicate that a file cannot be opened/streamed
+    let rowClass = ''
+    if (!isSelected) rowClass = 'disabled' // File deselected, not being torrented
+    if (!isDone && !isPlayable) rowClass = 'disabled' // Can't open yet, can't stream
+    return (
+      <tr key={index} onClick={handleClick}>
+        <td className={'col-icon ' + rowClass}>
+          {positionElem}
+          <i className='icon'>{icon}</i>
+        </td>
+        <td className={'col-name ' + rowClass}>
+          {file.name}
+        </td>
+        <td className={'col-progress ' + rowClass}>
+          {isSelected ? progress : ''}
+        </td>
+        <td className={'col-size ' + rowClass}>
+          {prettyBytes(file.length)}
+        </td>
+        <td
+          className='col-select'
+          onClick={dispatcher('toggleTorrentFile', infoHash, index)}
+        >
+          <i className='icon deselect-file'>{isSelected ? 'close' : 'add'}</i>
+        </td>
+      </tr>
+    )
+>>>>>>> 5eec89cd423eedc61303b46b4a01303efacd1339
   }
 
   renderRadialProgressBar(fraction, cssClass) {

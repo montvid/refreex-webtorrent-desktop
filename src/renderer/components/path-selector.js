@@ -1,3 +1,5 @@
+const path = require('path')
+
 const colors = require('material-ui/styles/colors')
 const electron = require('electron')
 const React = require('react')
@@ -16,7 +18,6 @@ class PathSelector extends React.Component {
     return {
       className: PropTypes.string,
       dialog: PropTypes.object,
-      displayValue: PropTypes.string,
       id: PropTypes.string,
       onChange: PropTypes.func,
       title: PropTypes.string.isRequired,
@@ -31,7 +32,7 @@ class PathSelector extends React.Component {
 
   handleClick () {
     const opts = Object.assign({
-      defaultPath: this.props.value,
+      defaultPath: this.props.value && path.dirname(this.props.value),
       properties: ['openFile', 'openDirectory']
     }, this.props.dialog)
 
@@ -65,8 +66,7 @@ class PathSelector extends React.Component {
     const textFieldStyle = {
       flex: '1'
     }
-
-    const text = this.props.displayValue || this.props.value || ''
+    const text = this.props.value || ''
     const buttonStyle = {
       marginLeft: 10
     }
@@ -76,10 +76,14 @@ class PathSelector extends React.Component {
         <div className='label' style={labelStyle}>
           {this.props.title}:
         </div>
-        <TextField className='control' disabled id={id} value={text}
-          inputStyle={textareaStyle} style={textFieldStyle} />
-        <RaisedButton className='control' label='Change' onClick={this.handleClick}
-          style={buttonStyle} />
+        <TextField
+          className='control' disabled id={id} value={text}
+          inputStyle={textareaStyle} style={textFieldStyle}
+        />
+        <RaisedButton
+          className='control' label='Change' onClick={this.handleClick}
+          style={buttonStyle}
+        />
       </div>
     )
   }
