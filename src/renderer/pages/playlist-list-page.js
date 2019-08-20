@@ -1,6 +1,9 @@
 const React = require('react')
 const { dispatcher } = require('../lib/dispatcher')
 
+const List = require('material-ui/List').default
+const ListItem = require('material-ui/List').default
+
 module.exports = class PlaylistList extends React.Component {
   constructor(props) {
     super(props);
@@ -14,7 +17,7 @@ module.exports = class PlaylistList extends React.Component {
     const playlistList = this.renderPlaylistsLists()
 
     return (
-      <div key='playlists'>
+      <div class="toolbar" key='playlists'>
         {createPlaylist}
         {playlistList}
       </div>
@@ -29,7 +32,7 @@ module.exports = class PlaylistList extends React.Component {
           onChange={this.handleChange}
           placeholder="playlist's name">
         </input>
-
+        <br/>
         <button
           disabled={!this.state.createPlaylistNameInput}
           onClick={dispatcher('createPlaylist', this.state.createPlaylistNameInput)}>

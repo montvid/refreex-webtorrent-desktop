@@ -335,8 +335,9 @@ textarea,
 
 .torrent,
 .torrent-placeholder {
-  height: 200px;
-  width: 25%;
+  height: 20vh;
+  width: 20vh;
+  margin: 2px;
 }
 
 .torrent:not(:last-child) {
@@ -471,8 +472,8 @@ body.drag .app::after {
 
 .torrent.selected {
   /* height: auto; */
-  height: 96vh;
-  width: 131vh;
+  height: 100%;
+  width: 88%;
   display: block !important;
 }
 
@@ -975,4 +976,26 @@ video::-webkit-media-text-track-container {
 
 .playlist-selected {
   color: yellowgreen;
+}
+
+.toolbar {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  width: 18%;
+  background-color: #0a0303;
+  height: 91%; /* Full height */
+  position: fixed; /* Make it stick, even on scroll */
+  overflow: auto; /* Enable scrolling if the sidenav has too much content */
+}
+
+.torrent-list {
+  /* //DELETE AND DO SOMETHING GOOD */
+  width: 92%; 
+  margin-left: 18%;
+    /* //DELETE AND DO SOMETHING GOOD */
+}
+
+.green {
+  color: green
 }
