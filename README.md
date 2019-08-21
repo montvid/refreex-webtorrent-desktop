@@ -1,15 +1,15 @@
 <h1 align="center">
   <br>
-  <a href="https://webtorrent.io">
-    <img src="https://webtorrent.io/img/WebTorrent.png" alt="WebTorrent" width="200">
+  <a href="https://github.com/refreex/">
+    <img src="/static/WebTorrent.png" alt="Refreex" width="200">
   </a>
   <br>
-  WebTorrent Desktop
+  Refreex Desktop
   <br>
   <br>
 </h1>
 
-<h4 align="center">The streaming torrent app. For Mac, Windows, and Linux.</h4>
+<h4 align="center">The streaming torrent app, focused in music and shared playlists. For Mac, Windows, and Linux.</h4>
 
 <p align="center">
   <a href="https://discord.gg/cnXkm4Z"><img src="https://img.shields.io/discord/612575111718895616" alt="discord"></a>
@@ -19,55 +19,81 @@
   <a href="https://standardjs.com"><img src="https://img.shields.io/badge/code_style-standard-brightgreen.svg" alt="Standard - JavaScript Style Guide"></a>
 </p>
 
-
-#### Recommended readings to start working in the app
-
-Electron (Framework to make native apps for Windows, OSX and Linux in Javascript):
-https://electronjs.org/docs/tutorial/quick-start
-
-React.js (Framework to work with Frontend UI):
-https://reactjs.org/docs/getting-started.html
-
-Material UI (React components that implement Google's Material Design.):
-https://material-ui.com/getting-started
-https://material.io/tools/icons/?style=baseline
-
 ## Install
-
-### Recommended Install
-
-Download the latest version of WebTorrent Desktop from
-[the official website](https://webtorrent.io/desktop/):
-
-### [✨ Download WebTorrent Desktop ✨](https://webtorrent.io/desktop/)
+### [✨ Download Refreex Desktop ✨]
 
 ### Advanced Install
 
-- Download specific installer files from the [GitHub releases](https://github.com/webtorrent/webtorrent-desktop/releases) page.
-
-- Use [Homebrew-Cask](https://github.com/caskroom/homebrew-cask) to install from the command line:
-
-  ```
-  $ brew cask install webtorrent
-  ```
+- Download specific installer files from the [GitHub releases](https://github.com/refreex/refreex-webtorrent-desktop/releases) page.
 
 - Try the (unstable) development version by cloning the Git repository. See the
   ["How to Contribute"](#how-to-contribute) instructions.
 
-## Screenshots
+## Refreex Playlists
 
-<p align="center">
-  <img src="https://webtorrent.io/img/screenshot-player3.png" alt="screenshot" align="center">
-  <img src="https://webtorrent.io/img/screenshot-main.png" width="612" height="749" alt="screenshot" align="center">
-</p>
+The difference between this torrent client and many others including the same WebTorrent is that this app is specially for music. Creating, modifying and share your playlists, with torrents now is possible.
+
+Giving the chance to the people of modern ways of sharing culture in a easy way without restrictions.
+
+I created a format for this playlists in JSON, to keep it easy and not get confused with other kind of playlists the name of this kind of list is *Refreex Playlist*
+
+The *Refreex Playlists* are created in JSON format like this:
+
+```
+{
+  "id": "NameOfThePlaylist",
+  "torrents": [
+    {
+      "infoHash": "a80fda124873fa7d93937d9c607f206e00559269",
+      "files": [
+        "Dexter_Britain_-_03_-_In_The_Electric_Fields.mp3",
+        "Dexter_Britain_-_01_-_The_Time_To_Run_Finale.ogg"
+      ]
+    },
+    {
+      "infoHash": "4b53bd8f85a653adcc9cc66aaa7500b946ab06b9",
+      "files": [
+        "Cloudkicker_-_10_-_You_and_yours.ogg",
+        "Cloudkicker_-_10_-_You_and_yours.mp3",
+        "NeZoomie_-_04_-_Heavy_Phat_Gun.mp3"
+      ]
+    },
+    {
+      "infoHash": "1c4bfb44845f584fc0cf343edb4fc67bc177bb1b",
+      "files": [
+        "art_of_war_01-02_sun_tzu.mp3"
+      ]
+    },
+    {
+      "infoHash": "a88fda5954e89178c372716a6a78b8180ed4dad3",
+      "files": [
+        "05 - Spoon - Revenge!.mp3",
+        "16 - Matmos - Action At A Distance.mp3"
+      ]
+    }
+  ]
+}
+```
+
+As we can see the idea is simple but effective. The *Refreex Playlist* (JSON) has just two properties.
+
+* The first one is `id` this one must be unique and we cannot have two *Refreex Playlist* with the same `id` in the Refreex App. Is the name of the playlist.
+
+* The second one is `torrents` this one is an array of objects. 
+Those objects are the torrents indeed and they are composed by two properties the `infoHash` of a torrent (you can get it from the magnet link) and the `files` that you want to add to the playlist
+
+
+**For the future / ideas:**
+We can share at the moment the playlists in plain text, json files and the app will know how to read it parse it and download it.
+I been thinking for the future that the `Refreex Playlists` should be created using DAT protocol to allow mutation of the playlist (torrents are immutables).
 
 ## How to Contribute
 
 ### Get the code
 
 ```
-$ git clone https://github.com/webtorrent/webtorrent-desktop.git
-$ cd webtorrent-desktop
+$ git clone https://github.com/refreex/refreex-webtorrent-desktop.git
+$ cd refreex-webtorrent-desktop
 $ npm install
 ```
 
@@ -183,6 +209,7 @@ https://reactjs.org/docs/getting-started.html
 
 Material UI (React components that implement Google's Material Design.):
 https://material-ui.com/getting-started
+https://material.io/tools/icons/?style=baseline
 
 ### Privacy
 
