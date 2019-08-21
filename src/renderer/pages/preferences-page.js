@@ -56,7 +56,7 @@ class PreferencesPage extends React.Component {
         <Checkbox
           className='control'
           checked={!this.props.state.saved.prefs.openExternalPlayer}
-          label='Play torrent media files using WebTorrent'
+          label='Play torrent media files using Refreex'
           onCheck={this.handleOpenExternalPlayerChange}
         />
       </Preference>
@@ -86,12 +86,16 @@ class PreferencesPage extends React.Component {
   }
 
   externalPlayerPathSelector () {
-    const playerPath = this.props.state.saved.prefs.externalPlayerPath
+    let playerPath = this.props.state.saved.prefs.externalPlayerPath
     const playerName = this.props.state.getExternalPlayerName()
-
     const description = this.props.state.saved.prefs.openExternalPlayer
       ? `Torrent media files will always play in ${playerName}.`
-      : `Torrent media files will play in ${playerName} if WebTorrent cannot play them.`
+      : `Torrent media files will play in ${playerName} if Refreex cannot play them.`
+
+    //Don't know what weird state i got that i need to do this patch to make it work if playerPath is undefined
+    if (!playerPath) {
+      playerPath = this.props.state.saved.prefs.torrentsFolderPath
+    }
 
     return (
       <Preference>
@@ -107,9 +111,15 @@ class PreferencesPage extends React.Component {
         />
       </Preference>
     )
+
+
+
+
   }
 
   handleExternalPlayerPathChange (filePath) {
+    debugger;
+    console.log(123)
     dispatch('updatePreferences', 'externalPlayerPath', filePath)
   }
 
@@ -171,17 +181,17 @@ class PreferencesPage extends React.Component {
     if (isFileHandler) {
       return (
         <Preference>
-          <p>WebTorrent is your default torrent app. Hooray!</p>
+          <p>Refreex is your default torrent app. Hooray!</p>
         </Preference>
       )
     }
     return (
       <Preference>
-        <p>WebTorrent is not currently the default torrent app.</p>
+        <p>Refreex is not currently the default torrent app.</p>
         <RaisedButton
           className='control'
           onClick={this.handleSetDefaultApp}
-          label='Make WebTorrent the default'
+          label='Make Refreex the default'
         />
       </Preference>
     )
