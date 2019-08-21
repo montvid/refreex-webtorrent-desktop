@@ -49,19 +49,17 @@ function renderMedia (state) {
   // Instead, grab the DOM node and play/pause it if necessary
 	// Get the <video> or <audio> tag
 	const mediaElement = document.querySelector("audio")
+
   if (mediaElement !== null) {
+    console.log(1, state.playing.isPaused);
     if (state.playing.isPaused && !mediaElement.paused) {
       mediaElement.pause()
     } else if (!state.playing.isPaused && mediaElement.paused) {
       mediaElement.play()
-        .catch(err => {
-          console.error(err)
-          mediaElement.pause()
-          // mediaElement.pause()
-          // dispatch('openExternalPlayer')
-          // this.update()
-          // cb()
-          // return
+        .catch(function (err){
+          state.playing.isPaused = true
+          alert('The file is not compatible with chromium, it will be open with an external player');
+          dispatch('openExternalPlayer')
         })
 		}
 
