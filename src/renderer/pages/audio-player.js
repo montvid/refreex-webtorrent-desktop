@@ -54,6 +54,15 @@ function renderMedia (state) {
       mediaElement.pause()
     } else if (!state.playing.isPaused && mediaElement.paused) {
       mediaElement.play()
+        .catch(err => {
+          console.error(err)
+          mediaElement.pause()
+          // mediaElement.pause()
+          // dispatch('openExternalPlayer')
+          // this.update()
+          // cb()
+          // return
+        })
 		}
 
 		// When the user clicks or drags on the progress bar, jump to that position
@@ -586,15 +595,6 @@ function renderPlayerControls (state) {
   // Handles volume slider scrub
   function handleVolumeScrub (e) {
     dispatch('setVolume', e.target.value)
-  }
-
-  function handleSubtitles (e) {
-    if (!state.playing.subtitles.tracks.length || e.ctrlKey || e.metaKey) {
-      // if no subtitles available select it
-      dispatch('openSubtitles')
-    } else {
-      dispatch('toggleSubtitlesMenu')
-    }
   }
 }
 

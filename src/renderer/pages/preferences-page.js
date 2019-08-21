@@ -232,8 +232,9 @@ class PreferencesPage extends React.Component {
   render () {
     const style = {
       color: colors.grey400,
-      marginLeft: 25,
-      marginRight: 25
+      marginLeft: '20%',
+      marginRight: 25,
+      width: '50%',
     }
     return (
       <div style={style}>

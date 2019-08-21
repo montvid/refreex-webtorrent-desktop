@@ -35,7 +35,7 @@ class PathSelector extends React.Component {
       defaultPath: this.props.value && path.dirname(this.props.value),
       properties: ['openFile', 'openDirectory']
     }, this.props.dialog)
-
+    debugger;
     remote.dialog.showOpenDialog(
       remote.getCurrentWindow(),
       opts,

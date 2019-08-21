@@ -17,7 +17,7 @@ module.exports = class PlaylistList extends React.Component {
     const playlistList = this.renderPlaylistsLists()
 
     return (
-      <div class="toolbar" key='playlists'>
+      <div className="toolbar" key='playlists'>
         {createPlaylist}
         {playlistList}
       </div>

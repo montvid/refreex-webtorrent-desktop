@@ -278,17 +278,9 @@ module.exports = class PlaybackController {
 
     function getAudioMetadata () {
       if (state.playing.type === 'audio') {
-        ipcRenderer.send('wt-get-audio-metadata', torrentSummary.infoHash, index)
+        // ipcRenderer.send('wt-get-audio-metadata', torrentSummary.infoHash, index)
       }
     }
-
-    // // if it's video, check for subtitles files that are done downloading
-    // dispatch('checkForSubtitles')
-
-    // // enable previously selected subtitle track
-    // if (fileSummary.selectedSubtitle) {
-    //   dispatch('addSubtitles', [fileSummary.selectedSubtitle], true)
-    // }
 
     state.window.title = fileSummary.name
 
