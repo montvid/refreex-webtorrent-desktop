@@ -31,13 +31,6 @@ module.exports = class TorrentList extends React.Component {
     )
 
     contents.push(...torrentElems)
-    contents.push(
-      <div key='torrent-placeholder' className='torrent-placeholder'>
-        <span className='ellipsis'>Drop a torrent file here or paste a magnet link</span>
-        <span className='ellipsis'>Paste a playlist here to start listening to your music</span>
-      </div>
-    )
-
     return (
       <div key='torrent-list' className='torrent-list'>
         {contents}
@@ -72,7 +65,8 @@ module.exports = class TorrentList extends React.Component {
         style={style}
         className={classes.join(' ')}
         onContextMenu={infoHash && dispatcher('openTorrentContextMenu', infoHash)}
-        onClick={infoHash && dispatcher('toggleSelectTorrent', infoHash)}>
+        onClick={infoHash && dispatcher('toggleSelectTorrent', infoHash)}
+      >
         {this.renderTorrentMetadata(torrentSummary)}
         {infoHash ? this.renderTorrentButtons(torrentSummary) : null}
         {isSelected ? this.renderTorrentDetails(torrentSummary) : null}
@@ -150,7 +144,8 @@ module.exports = class TorrentList extends React.Component {
           }}
           checked={isActive}
           onClick={stopPropagation}
-          onCheck={dispatcher('toggleTorrent', infoHash)} />
+          onCheck={dispatcher('toggleTorrent', infoHash)}
+        />
       )
     }
 
@@ -254,8 +249,9 @@ module.exports = class TorrentList extends React.Component {
         <i
           key='play-button'
           title='Start streaming'
-          className={'icon play'}
-          onClick={dispatcher('playFile', infoHash)}>
+          className='icon play'
+          onClick={dispatcher('playFile', infoHash)}
+        >
           play_circle_outline
         </i>
       )
@@ -268,7 +264,8 @@ module.exports = class TorrentList extends React.Component {
           key='delete-button'
           className='icon delete'
           title='Remove torrent'
-          onClick={dispatcher('confirmDeleteTorrent', infoHash, false)}>
+          onClick={dispatcher('confirmDeleteTorrent', infoHash, false)}
+        >
           close
         </i>
       </div>

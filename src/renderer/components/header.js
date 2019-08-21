@@ -6,11 +6,18 @@ class Header extends React.Component {
   render () {
     const loc = this.props.state.location
     return (
-      <div className='header'
+      <div
+        className='header'
         onMouseMove={dispatcher('mediaMouseMoved')}
         onMouseEnter={dispatcher('mediaControlsMouseEnter')}
-        onMouseLeave={dispatcher('mediaControlsMouseLeave')}>
+        onMouseLeave={dispatcher('mediaControlsMouseLeave')}
+      >
         {this.getTitle()}
+        <div className='nav left float-left'>
+          <span className="green">Drop a torrent file here or paste a magnet link // </span>
+          <span>Paste a playlist here to start listening to your music</span>
+        </div>
+
         <div className='nav right float-right'>
           {this.getAddButton()}
         </div>
