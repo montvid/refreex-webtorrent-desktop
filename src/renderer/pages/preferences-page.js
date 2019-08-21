@@ -201,7 +201,7 @@ class PreferencesPage extends React.Component {
         <Checkbox
           className='control'
           checked={this.props.state.saved.prefs.startup}
-          label='Open WebTorrent on startup'
+          label='Open Refreex on startup'
           onCheck={this.handleStartupChange}
         />
       </Preference>
