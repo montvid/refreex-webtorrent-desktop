@@ -11,6 +11,8 @@
 
 <h4 align="center">The streaming torrent app, focused in music and shared playlists. For Mac, Windows, and Linux.</h4>
 
+<img src="https://i.ibb.co/gthMDTn/Capture.png" alt="Refreex" width="850">
+
 <p align="center">
   <a href="https://discord.gg/cnXkm4Z"><img src="https://img.shields.io/discord/612575111718895616" alt="discord"></a>
   <a href="https://travis-ci.org/webtorrent/webtorrent-desktop"><img src="https://img.shields.io/travis/webtorrent/webtorrent-desktop/master.svg" alt="travis"></a>
