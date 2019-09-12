@@ -50,16 +50,10 @@ function renderMedia (state) {
 	const mediaElement = document.querySelector("audio")
 
   if (mediaElement !== null) {
-    console.log(1, state.playing.isPaused);
     if (state.playing.isPaused && !mediaElement.paused) {
       mediaElement.pause()
     } else if (!state.playing.isPaused && mediaElement.paused) {
       mediaElement.play()
-        // .catch(function (err){
-        //   state.playing.isPaused = true
-        //   alert('The file is not compatible with chromium, it will be open with an external player');
-        //   dispatch('openExternalPlayer')
-        // })
 		}
 
 		// When the user clicks or drags on the progress bar, jump to that position

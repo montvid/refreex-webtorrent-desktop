@@ -111,15 +111,9 @@ class PreferencesPage extends React.Component {
         />
       </Preference>
     )
-
-
-
-
   }
 
   handleExternalPlayerPathChange (filePath) {
-    debugger;
-    console.log(123)
     dispatch('updatePreferences', 'externalPlayerPath', filePath)
   }
 
