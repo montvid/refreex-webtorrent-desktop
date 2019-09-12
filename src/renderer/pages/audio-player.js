@@ -14,7 +14,7 @@ module.exports = class Player extends React.Component {
     // If the video is on Chromecast or Airplay, show a title screen instead
     const state = this.props.state
     // const showVideo = state.playing.location === 'local'
-		const showControls = state.playing.location !== 'external'
+    const showControls = state.playing.location !== 'external'
     return (
       <div
         className='player'
@@ -43,7 +43,8 @@ function handleVolumeWheel (e) {
 
 function renderMedia (state) {
 //   if (!state.server) return
-
+  // Validation to avoid error modal when we open the app without any file on the playlist.
+  if (Playlist.getCurrentLocalURL(state) === "") return
   // Unfortunately, play/pause can't be done just by modifying HTML.
   // Instead, grab the DOM node and play/pause it if necessary
 	// Get the <video> or <audio> tag
@@ -142,7 +143,12 @@ function renderMedia (state) {
       elem.webkitVideoDecodedByteCount === 0) {
       dispatch('mediaError', 'Video codec unsupported')
     } else if (elem.webkitAudioDecodedByteCount === 0) {
-      dispatch('mediaError', 'Audio codec unsupported')
+      
+      // Nasty patch to avoid entering here for flac files, we need to address it better.
+      if (!elem.src.includes('.flac')) {
+        dispatch('mediaError', 'Audio codec unsupported')
+      }
+
     } else {
       dispatch('mediaSuccess')
       elem.play()

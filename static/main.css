@@ -982,7 +982,7 @@ video::-webkit-media-text-track-container {
   list-style-type: none;
   margin: 0;
   padding: 0;
-  width: 18%;
+  width: 180px;
   background-color: #0a0303;
   height: 91%; /* Full height */
   position: fixed; /* Make it stick, even on scroll */
@@ -992,7 +992,7 @@ video::-webkit-media-text-track-container {
 .torrent-list {
   /* //DELETE AND DO SOMETHING GOOD */
   width: 92%; 
-  margin-left: 18%;
+  margin-left: 11.4rem;
     /* //DELETE AND DO SOMETHING GOOD */
 }
 
