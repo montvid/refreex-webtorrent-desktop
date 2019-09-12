@@ -147,7 +147,7 @@ function addTorrentEvents (torrent) {
   torrent.on('error', (err) =>
     ipc.send('wt-error', torrent.key, err.message))
   torrent.on('infoHash', () =>
-    ipc.send('wt-infohash', torrent.key, torrent.infoHash))
+    ipc.send('wt-parsed', torrent.key, torrent.infoHash, torrent.magnetURI))
   torrent.on('metadata', torrentMetadata)
   torrent.on('ready', torrentReady)
   torrent.on('done', torrentDone)
@@ -358,11 +358,15 @@ function getAudioMetadata (infoHash, index) {
     : mm.parseStream(file.createReadStream(), file.name, options)
 
   onMetaData
-    .then(() => {
-      console.log(`metadata for file='${file.name}' completed.`)
-    }).catch(function (err) {
-      return console.log('error getting audio metadata for ' + infoHash + ':' + index, err)
-    })
+    .then(
+      () => console.log(`metadata for file='${file.name}' completed.`),
+      err => {
+        console.log(
+          `error getting audio metadata for ${infoHash}:${index}`,
+          err
+        )
+      }
+    )
 }
 
 function selectFiles (torrentOrInfoHash, selections) {
