@@ -1,14 +1,14 @@
 {
-  "name": "webtorrent-desktop",
-  "description": "WebTorrent, the streaming torrent client. For Mac, Windows, and Linux.",
+  "name": "refreex-desktop",
+  "description": "Refreex, the streaming torrent client. For Mac, Windows, and Linux.",
   "version": "0.20.0",
   "author": {
-    "name": "WebTorrent, LLC",
+    "name": "Refreex, LLC",
     "email": "feross@webtorrent.io",
     "url": "https://webtorrent.io"
   },
   "bugs": {
-    "url": "https://github.com/webtorrent/webtorrent-desktop/issues"
+    "url": "https://github.com/refreex/refreex-webtorrent-desktop/issues"
   },
   "dependencies": {
     "airplayer": "github:webtorrent/airplayer#fix-security",
