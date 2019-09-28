@@ -82,7 +82,7 @@ const all = {
   asar: {
     // A glob expression, that unpacks the files with matching names to the
     // "app.asar.unpacked" directory.
-    unpack: 'WebTorrent*'
+    unpack: 'Refreex*'
   },
 
   // The build version of the application. Maps to the FileVersion metadata property on
@@ -122,14 +122,14 @@ const darwin = {
   arch: 'x64',
 
   // The bundle identifier to use in the application's plist (Mac only).
-  appBundleId: 'io.webtorrent.webtorrent',
+  appBundleId: 'io.webtorrent.refreex-webtorrent',
 
   // The application category type, as shown in the Finder via "View" -> "Arrange by
   // Application Category" when viewing the Applications directory (Mac only).
   appCategoryType: 'public.app-category.utilities',
 
   // The bundle identifier to use in the application helper's plist (Mac only).
-  helperBundleId: 'io.webtorrent.webtorrent-helper',
+  helperBundleId: 'io.webtorrent.refreex-webtorrent-helper',
 
   // Application icon.
   icon: config.APP_ICON + '.icns'
@@ -507,7 +507,7 @@ function buildLinux (cb) {
       src: filesPath + '/',
       dest: DIST_PATH,
       arch: 'amd64',
-      bin: 'WebTorrent',
+      bin: 'Refreex',
       icon: {
         '48x48': path.join(config.STATIC_PATH, 'linux/share/icons/hicolor/48x48/apps/webtorrent-desktop.png'),
         '256x256': path.join(config.STATIC_PATH, 'linux/share/icons/hicolor/256x256/apps/webtorrent-desktop.png')
