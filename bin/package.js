@@ -82,7 +82,7 @@ const all = {
   asar: {
     // A glob expression, that unpacks the files with matching names to the
     // "app.asar.unpacked" directory.
-    unpack: 'WebTorrent*'
+    unpack: 'Refreex*'
   },
 
   // The build version of the application. Maps to the FileVersion metadata property on
@@ -122,14 +122,14 @@ const darwin = {
   arch: 'x64',
 
   // The bundle identifier to use in the application's plist (Mac only).
-  appBundleId: 'io.webtorrent.webtorrent',
+  appBundleId: 'io.webtorrent.refreex-webtorrent',
 
   // The application category type, as shown in the Finder via "View" -> "Arrange by
   // Application Category" when viewing the Applications directory (Mac only).
   appCategoryType: 'public.app-category.utilities',
 
   // The bundle identifier to use in the application helper's plist (Mac only).
-  helperBundleId: 'io.webtorrent.webtorrent-helper',
+  helperBundleId: 'io.webtorrent.refreex-webtorrent-helper',
 
   // Application icon.
   icon: config.APP_ICON + '.icns'
@@ -173,8 +173,8 @@ const linux = {
   // Build for Linux.
   platform: 'linux',
 
-  // Build x64 and arm64 binaries.
-  arch: ['x64', 'arm64']
+  // Build x64 binary onle.
+  arch: 'x64'
 
   // Note: Application icon for Linux is specified via the BrowserWindow `icon` option.
 }
@@ -485,16 +485,11 @@ function buildLinux (cb) {
 
     const tasks = []
     buildPath.forEach(function (filesPath) {
-      const destArch = filesPath.split('-').pop()
-
       if (argv.package === 'deb' || argv.package === 'all') {
-        tasks.push((cb) => packageDeb(filesPath, destArch, cb))
-      }
-      if (argv.package === 'rpm' || argv.package === 'all') {
-        tasks.push((cb) => packageRpm(filesPath, destArch, cb))
+        tasks.push((cb) => packageDeb(filesPath, cb))
       }
       if (argv.package === 'zip' || argv.package === 'all') {
-        tasks.push((cb) => packageZip(filesPath, destArch, cb))
+        tasks.push((cb) => packageZip(filesPath, cb))
       }
     })
     series(tasks, cb)
@@ -502,22 +497,17 @@ function buildLinux (cb) {
     cb(err)
   })
 
-  function packageDeb (filesPath, destArch, cb) {
-    // Linux convention for Debian based 'x64' is 'amd64'
-    if (destArch === 'x64') {
-      destArch = 'amd64'
-    }
-
+  function packageDeb (filesPath, cb) {
     // Create .deb file for Debian-based platforms
-    console.log(`Linux: Creating ${destArch} deb...`)
+    console.log('Linux: Creating deb...')
 
     const installer = require('electron-installer-debian')
 
     const options = {
       src: filesPath + '/',
       dest: DIST_PATH,
-      arch: destArch,
-      bin: 'WebTorrent',
+      arch: 'amd64',
+      bin: 'Refreex',
       icon: {
         '48x48': path.join(config.STATIC_PATH, 'linux/share/icons/hicolor/48x48/apps/webtorrent-desktop.png'),
         '256x256': path.join(config.STATIC_PATH, 'linux/share/icons/hicolor/256x256/apps/webtorrent-desktop.png')
@@ -529,56 +519,22 @@ function buildLinux (cb) {
 
     installer(options).then(
       () => {
-        console.log(`Linux: Created ${destArch} deb.`)
+        console.log('Linux: Created deb.')
         cb(null)
       },
       (err) => cb(err)
     )
   }
 
-  function packageRpm (filesPath, destArch, cb) {
-    // Linux convention for RedHat based 'x64' is 'x86_64'
-    if (destArch === 'x64') {
-      destArch = 'x86_64'
-    }
-
-    // Create .rpm file for RedHat-based platforms
-    console.log(`Linux: Creating ${destArch} rpm...`)
-
-    const installer = require('electron-installer-redhat')
-
-    const options = {
-      src: filesPath + '/',
-      dest: DIST_PATH,
-      arch: destArch,
-      bin: 'WebTorrent',
-      icon: {
-        '48x48': path.join(config.STATIC_PATH, 'linux/share/icons/hicolor/48x48/apps/webtorrent-desktop.png'),
-        '256x256': path.join(config.STATIC_PATH, 'linux/share/icons/hicolor/256x256/apps/webtorrent-desktop.png')
-      },
-      categories: ['Network', 'FileTransfer', 'P2P'],
-      mimeType: ['application/x-bittorrent', 'x-scheme-handler/magnet', 'x-scheme-handler/stream-magnet'],
-      desktopTemplate: path.join(config.STATIC_PATH, 'linux/webtorrent-desktop.ejs')
-    }
-
-    installer(options).then(
-      () => {
-        console.log(`Linux: Created ${destArch} rpm.`)
-        cb(null)
-      },
-      (err) => cb(err)
-    )
-  }
-
-  function packageZip (filesPath, destArch, cb) {
+  function packageZip (filesPath, cb) {
     // Create .zip file for Linux
-    console.log(`Linux: Creating ${destArch} zip...`)
+    console.log('Linux: Creating zip...')
 
     const inPath = path.join(DIST_PATH, path.basename(filesPath))
-    const outPath = path.join(DIST_PATH, `${BUILD_NAME}-linux-${destArch}.zip`)
+    const outPath = path.join(DIST_PATH, BUILD_NAME + '-linux.zip')
     zip.zipSync(inPath, outPath)
 
-    console.log(`Linux: Created ${destArch} zip.`)
+    console.log('Linux: Created zip.')
     cb(null)
   }
 }

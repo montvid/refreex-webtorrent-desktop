@@ -10,12 +10,15 @@ const Header = require('../components/header')
 
 // Perf optimization: Needed immediately, so do not lazy load it below
 const TorrentListPage = require('./torrent-list-page')
+const PlaylistList = require('./playlist-list-page')
+const AudioPlayer = require ('./audio-player')
 
 const Views = {
   home: createGetter(() => TorrentListPage),
   player: createGetter(() => require('./player-page')),
   'create-torrent': createGetter(() => require('./create-torrent-page')),
-  preferences: createGetter(() => require('./preferences-page'))
+  preferences: createGetter(() => require('./preferences-page')),
+  'search-torrents-page': createGetter(() => require('./search-torrents-page')),
 }
 
 const Modals = {
@@ -23,6 +26,8 @@ const Modals = {
     () => require('../components/open-torrent-address-modal')
   ),
   'remove-torrent-modal': createGetter(() => require('../components/remove-torrent-modal')),
+  'remove-playlist-modal': createGetter(() => require('../components/remove-playlist-modal')),
+  'share-playlist-modal': createGetter(() => require('../components/share-playlist-modal')),  
   'update-available-modal': createGetter(() => require('../components/update-available-modal')),
   'unsupported-media-modal': createGetter(() => require('../components/unsupported-media-modal'))
 }
@@ -65,13 +70,17 @@ class App extends React.Component {
     if (!darkMuiTheme) {
       darkMuiTheme = getMuiTheme(darkBaseTheme)
     }
-
+    
     return (
       <MuiThemeProvider muiTheme={darkMuiTheme}>
         <div className={'app ' + cls.join(' ')}>
           <Header state={state} />
           {this.getErrorPopover()}
-          <div key='content' className='content'>{this.getView()}</div>
+          <div key='content' className='content'>
+            <PlaylistList state={state}></PlaylistList>
+            {this.getView()}
+          </div>
+          <AudioPlayer state={state}></AudioPlayer>
           {this.getModal()}
         </div>
       </MuiThemeProvider>

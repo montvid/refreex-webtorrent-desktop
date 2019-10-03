@@ -29,14 +29,13 @@ function run (state) {
   if (semver.lt(version, '0.17.0')) migrate_0_17_0(saved)
   if (semver.lt(version, '0.17.2')) migrate_0_17_2(saved)
   if (semver.lt(version, '0.21.0')) migrate_0_21_0(saved)
-  if (semver.lt(version, '0.21.1')) migrate_0_21_1(saved)
 
   // Config is now on the new version
   state.saved.version = config.APP_VERSION
 }
 
 function migrate_0_7_0 (saved) {
-  const { copyFileSync } = require('fs')
+  const cpFile = require('cp-file')
   const path = require('path')
 
   saved.torrents.forEach(function (ts) {
@@ -58,7 +57,7 @@ function migrate_0_7_0 (saved) {
       dst = path.join(config.TORRENT_PATH, infoHash + '.torrent')
       // Synchronous FS calls aren't ideal, but probably OK in a migration
       // that only runs once
-      if (src !== dst) copyFileSync(src, dst)
+      if (src !== dst) cpFile.sync(src, dst)
 
       delete ts.torrentPath
       ts.torrentFileName = infoHash + '.torrent'
@@ -73,7 +72,7 @@ function migrate_0_7_0 (saved) {
       dst = path.join(config.POSTER_PATH, infoHash + extension)
       // Synchronous FS calls aren't ideal, but probably OK in a migration
       // that only runs once
-      if (src !== dst) copyFileSync(src, dst)
+      if (src !== dst) cpFile.sync(src, dst)
 
       delete ts.posterURL
       ts.posterFileName = infoHash + extension
@@ -157,7 +156,7 @@ function migrate_0_17_2 (saved) {
   // folders/files that end in a trailing dot (.) or space are not deletable from
   // Windows Explorer. See: https://github.com/webtorrent/webtorrent-desktop/issues/905
 
-  const { copyFileSync } = require('fs')
+  const cpFile = require('cp-file')
   const rimraf = require('rimraf')
 
   const OLD_NAME = 'The WIRED CD - Rip. Sample. Mash. Share.'
@@ -192,7 +191,7 @@ function migrate_0_17_2 (saved) {
   ts.posterFileName = NEW_HASH + '.jpg'
 
   rimraf.sync(path.join(config.TORRENT_PATH, ts.torrentFileName))
-  copyFileSync(
+  cpFile.sync(
     path.join(config.STATIC_PATH, 'wiredCd.torrent'),
     path.join(config.TORRENT_PATH, NEW_HASH + '.torrent')
   )
@@ -213,11 +212,5 @@ function migrate_0_21_0 (saved) {
   if (saved.prefs.soundNotifications == null) {
     // The app used to always have sound notifications enabled
     saved.prefs.soundNotifications = true
-  }
-}
-
-function migrate_0_21_1 (saved) {
-  if (saved.prefs.externalPlayerPath == null) {
-    saved.prefs.externalPlayerPath = ''
   }
 }

@@ -19,7 +19,7 @@ module.exports = class MediaController {
 
   mediaError (error) {
     const state = this.state
-    if (state.location.url() === 'player') {
+    // if (state.location.url() === 'player') {
       telemetry.logPlayAttempt('error')
       state.playing.location = 'error'
       ipcRenderer.send('checkForExternalPlayer', state.saved.prefs.externalPlayerPath)
@@ -30,7 +30,7 @@ module.exports = class MediaController {
           externalPlayerInstalled: isInstalled
         }
       })
-    }
+    // }
   }
 
   mediaTimeUpdate () {

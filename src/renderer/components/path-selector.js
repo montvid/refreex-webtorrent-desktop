@@ -32,10 +32,9 @@ class PathSelector extends React.Component {
 
   handleClick () {
     const opts = Object.assign({
-      defaultPath: path.dirname(this.props.value || ''),
+      defaultPath: this.props.value && path.dirname(this.props.value),
       properties: ['openFile', 'openDirectory']
     }, this.props.dialog)
-
     remote.dialog.showOpenDialog(
       remote.getCurrentWindow(),
       opts,

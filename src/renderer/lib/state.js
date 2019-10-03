@@ -79,7 +79,13 @@ function getDefaultState () {
     getPlayingTorrentSummary,
     getPlayingFileSummary,
     getExternalPlayerName,
-    shouldHidePlayerControls
+    shouldHidePlayerControls,
+
+
+    /*
+     * Playlists
+     */
+    allPlaylists: [],
   }
 }
 
@@ -110,49 +116,57 @@ function getDefaultPlayState () {
 }
 
 /* If the saved state file doesn't exist yet, here's what we use instead */
-function setupStateSaved () {
-  const { copyFileSync, mkdirSync, readFileSync } = require('fs')
+function setupStateSaved (cb) {
+  const cpFile = require('cp-file')
+  const fs = require('fs')
   const parseTorrent = require('parse-torrent')
 
+  //TODO: verify that allPlaylist is ok here.
   const saved = {
     prefs: {
       downloadPath: config.DEFAULT_DOWNLOAD_PATH,
       isFileHandler: false,
       openExternalPlayer: false,
-      externalPlayerPath: '',
+      externalPlayerPath: null,
       startup: false,
       soundNotifications: true,
       autoAddTorrents: false,
       torrentsFolderPath: '',
-      highestPlaybackPriority: true
+      highestPlaybackPriority: true,
+      allPlaylists: [],
     },
     torrents: config.DEFAULT_TORRENTS.map(createTorrentObject),
     torrentsToResume: [],
     version: config.APP_VERSION /* make sure we can upgrade gracefully later */
   }
 
-  // TODO: Doing several sync calls during first startup is not ideal
-  mkdirSync(config.POSTER_PATH, { recursive: true })
-  mkdirSync(config.TORRENT_PATH, { recursive: true })
+  const tasks = []
 
   config.DEFAULT_TORRENTS.forEach((t, i) => {
     const infoHash = saved.torrents[i].infoHash
-    // TODO: Doing several sync calls during first startup is not ideal
-    copyFileSync(
-      path.join(config.STATIC_PATH, t.posterFileName),
-      path.join(config.POSTER_PATH, infoHash + path.extname(t.posterFileName))
+    tasks.push(
+      cpFile(
+        path.join(config.STATIC_PATH, t.posterFileName),
+        path.join(config.POSTER_PATH, infoHash + path.extname(t.posterFileName))
+      )
     )
-    copyFileSync(
-      path.join(config.STATIC_PATH, t.torrentFileName),
-      path.join(config.TORRENT_PATH, infoHash + '.torrent')
+    tasks.push(
+      cpFile(
+        path.join(config.STATIC_PATH, t.torrentFileName),
+        path.join(config.TORRENT_PATH, infoHash + '.torrent')
+      )
     )
   })
 
-  return saved
+  Promise.all(tasks)
+    .then(
+      () => cb(null, saved),
+      err => cb(err)
+    )
 
   function createTorrentObject (t) {
-    // TODO: Doing several sync calls during first startup is not ideal
-    const torrent = readFileSync(path.join(config.STATIC_PATH, t.torrentFileName))
+    // TODO: Doing several fs.readFileSync calls during first startup is not ideal
+    const torrent = fs.readFileSync(path.join(config.STATIC_PATH, t.torrentFileName))
     const parsedTorrent = parseTorrent(torrent)
 
     return {
@@ -201,14 +215,10 @@ function load (cb) {
   appConfig.read(function (err, saved) {
     if (err || !saved.version) {
       console.log('Missing config file: Creating new one')
-      try {
-        saved = setupStateSaved()
-      } catch (err) {
-        onSavedState(err)
-        return
-      }
+      setupStateSaved(onSavedState)
+    } else {
+      onSavedState(null, saved)
     }
-    onSavedState(null, saved)
   })
 
   function onSavedState (err, saved) {

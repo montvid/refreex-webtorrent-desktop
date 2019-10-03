@@ -1,10 +1,10 @@
-const appConfig = require('application-config')('WebTorrent')
+const appConfig = require('application-config')('Refreex')
 const path = require('path')
 const electron = require('electron')
 const arch = require('arch')
 
-const APP_NAME = 'WebTorrent'
-const APP_TEAM = 'WebTorrent, LLC'
+const APP_NAME = 'Refreex'
+const APP_TEAM = 'Refreex, LLC'
 const APP_VERSION = require('../package.json').version
 
 const IS_TEST = isTest()
@@ -19,11 +19,11 @@ const UI_TORRENT_HEIGHT = 100
 
 module.exports = {
   ANNOUNCEMENT_URL: 'https://webtorrent.io/desktop/announcement',
-  AUTO_UPDATE_URL: 'https://webtorrent.io/desktop/update',
+  AUTO_UPDATE_URL: 'https://github.com/repos/refreex/refreex-webtorrent-desktop/releases/latest',
   CRASH_REPORT_URL: 'https://webtorrent.io/desktop/crash-report',
   TELEMETRY_URL: 'https://webtorrent.io/desktop/telemetry',
 
-  APP_COPYRIGHT: 'Copyright © 2014-2019 ' + APP_TEAM,
+  APP_COPYRIGHT: 'Copyleft © 2014-2019 ' + APP_TEAM,
   APP_FILE_ICON: path.join(__dirname, '..', 'static', 'WebTorrentFile'),
   APP_ICON: path.join(__dirname, '..', 'static', 'WebTorrent'),
   APP_NAME: APP_NAME,
@@ -34,30 +34,6 @@ module.exports = {
   CONFIG_PATH: getConfigPath(),
 
   DEFAULT_TORRENTS: [
-    {
-      testID: 'bbb',
-      name: 'Big Buck Bunny',
-      posterFileName: 'bigBuckBunny.jpg',
-      torrentFileName: 'bigBuckBunny.torrent'
-    },
-    {
-      testID: 'cosmos',
-      name: 'Cosmos Laundromat (Preview)',
-      posterFileName: 'cosmosLaundromat.jpg',
-      torrentFileName: 'cosmosLaundromat.torrent'
-    },
-    {
-      testID: 'sintel',
-      name: 'Sintel',
-      posterFileName: 'sintel.jpg',
-      torrentFileName: 'sintel.torrent'
-    },
-    {
-      testID: 'tears',
-      name: 'Tears of Steel',
-      posterFileName: 'tearsOfSteel.jpg',
-      torrentFileName: 'tearsOfSteel.torrent'
-    },
     {
       testID: 'wired',
       name: 'The WIRED CD - Rip. Sample. Mash. Share',
@@ -70,10 +46,10 @@ module.exports = {
 
   DEFAULT_DOWNLOAD_PATH: getDefaultDownloadPath(),
 
-  GITHUB_URL: 'https://github.com/webtorrent/webtorrent-desktop',
-  GITHUB_URL_ISSUES: 'https://github.com/webtorrent/webtorrent-desktop/issues',
-  GITHUB_URL_RAW: 'https://raw.githubusercontent.com/webtorrent/webtorrent-desktop/master',
-  GITHUB_URL_RELEASES: 'https://github.com/webtorrent/webtorrent-desktop/releases',
+  GITHUB_URL: 'https://github.com/refreex/refreex-webtorrent-desktop',
+  GITHUB_URL_ISSUES: 'https://github.com/refreex/refreex-webtorrent-desktop/issues',
+  GITHUB_URL_RAW: 'https://raw.githubusercontent.com/refreex/refreex-webtorrent-desktop/master',
+  GITHUB_URL_RELEASES: 'https://github.com/refreex/refreex-webtorrent-desktop/releases',
 
   HOME_PAGE_URL: 'https://webtorrent.io',
   TWITTER_PAGE_URL: 'https://twitter.com/WebTorrentApp',
@@ -88,6 +64,7 @@ module.exports = {
   ROOT_PATH: path.join(__dirname, '..'),
   STATIC_PATH: path.join(__dirname, '..', 'static'),
   TORRENT_PATH: path.join(getConfigPath(), 'Torrents'),
+  PLAYLIST_PATH: path.join(getConfigPath(), 'Playlists'),
 
   WINDOW_ABOUT: 'file://' + path.join(__dirname, '..', 'static', 'about.html'),
   WINDOW_MAIN: 'file://' + path.join(__dirname, '..', 'static', 'main.html'),

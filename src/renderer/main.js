@@ -35,6 +35,7 @@ const config = require('../config')
 const telemetry = require('./lib/telemetry')
 const sound = require('./lib/sound')
 const TorrentPlayer = require('./lib/torrent-player')
+const PlaylistRefreex = require('./lib/playlist-refreex')
 
 // Perf optimization: Needed immediately, so do not lazy load it below
 const TorrentListController = require('./controllers/torrent-list-controller')
@@ -113,6 +114,10 @@ function onState (err, _state) {
     folderWatcher: createGetter(() => {
       const FolderWatcherController = require('./controllers/folder-watcher-controller')
       return new FolderWatcherController()
+    }),
+    playlistList: createGetter(() => {
+      const PlaylistListController = require ('./controllers/playlist-list-controller')
+      return new PlaylistListController(state);
     })
   }
 
@@ -322,6 +327,19 @@ const dispatchHandlers = {
   setTitle: (title) => { state.window.title = title },
   resetTitle: () => { state.window.title = config.APP_WINDOW_TITLE },
 
+  //Playlists
+  createPlaylist: (id) => controllers.playlistList().createPlaylist(id),
+  addAlbumToPlaylist: (infoHash, files) => controllers.playlistList().addAlbumToPlaylist(infoHash, files),
+  addSongToPlaylist: (infoHash, file) => controllers.playlistList().addSongToPlaylist(infoHash, file),
+  removeSongFromPlaylist: (infoHash, file) => controllers.playlistList().removeSongFromPlaylist(infoHash, file),
+  setPlaylist: (id) => controllers.playlistList().setPlaylist(id),
+  confirmDeletePlaylist: (id) => controllers.playlistList().confirmDeletePlaylist(id),
+  sharePlaylist: (id) => controllers.playlistList().sharePlaylist(id),
+  deletePlaylist : (id) => controllers.playlistList().deletePlaylist(id),
+
+  //Search Torrents Screen
+  searchTorrents: () => controllers.searchTorrents().show(),
+  
   // Everything else
   onOpen: onOpen,
   error: onError,
@@ -469,23 +487,46 @@ function onOpen (files) {
 
   const url = state.location.url()
   const allTorrents = files.every(TorrentPlayer.isTorrent)
-  const allSubtitles = files.every(controllers.subtitles().isSubtitle)
+  const allPlaylists = files.every(PlaylistRefreex.isRefreexPlaylist)
 
   if (allTorrents) {
     // Drop torrents onto the app: go to home screen, add torrents, no matter what
     dispatch('backToList')
     // All .torrent files? Add them.
     files.forEach((file) => controllers.torrentList().addTorrent(file))
-  } else if (url === 'player' && allSubtitles) {
-    // Drop subtitles onto a playing video: add subtitles
-    controllers.subtitles().addSubtitles(files, true)
+  } else if (allPlaylists) {
+    // Drop playlists onto the app: go to home screen, add torrents, add playlists no matter what
+    // All valid refreex playlists files? Add them.
+
+    files.forEach((file) => {
+
+      let playlistObj;
+      // We do this validation as we can get a files from the drag and drop and the file selector
+      // File selector is not a file is just a string
+      if (typeof file === "string") {
+        playlistObj = JSON.parse(fs.readFileSync(file, 'utf8'))
+      } else {
+        playlistObj = JSON.parse(fs.readFileSync(file.path, 'utf8'))
+      }
+
+      // Then we verify if has some content otherwhise we don't want it
+      if (!playlistObj.torrents.length > 0) return onError('You cannot add an empty playlist')
+      controllers.playlistList().addPlaylistWithContent(playlistObj)
+          
+      playlistObj.torrents.forEach(el => {
+        controllers.torrentList().addTorrent(el.infoHash)
+      })
+    })
+    
+    dispatch('backToList')
+
   } else if (url === 'home') {
     // Drop files onto home screen: show Create Torrent
     state.modal = null
     controllers.torrentList().showCreateTorrent(files)
   } else {
     // Drop files onto any other screen: show error
-    return onError('Please go back to the torrent list before creating a new torrent.')
+    return onError('Please go back to the torrent list before creating a new torren or add a new playlist.')
   }
 
   update()
@@ -504,9 +545,26 @@ function onError (err) {
 
 const editableHtmlTags = new Set(['input', 'textarea'])
 
+
 function onPaste (e) {
   if (editableHtmlTags.has(e.target.tagName.toLowerCase())) return
-  controllers.torrentList().addTorrent(electron.clipboard.readText())
+  pasteValue = electron.clipboard.readText()
+
+  //First we check if is Json or not to add a playlist or a torrent
+  if (PlaylistRefreex.isRefreexPlaylist(pasteValue)) {
+    let playlistObj = JSON.parse(pasteValue)
+
+    // Then we verify if has some content otherwhise we don't want it
+    if (!playlistObj.torrents.length > 0) return onError('You cannot add an empty playlist')
+    controllers.playlistList().addPlaylistWithContent(playlistObj)
+    
+    playlistObj.torrents.forEach(el => {
+      controllers.torrentList().addTorrent(el.infoHash)
+    })
+    
+  } else {
+    controllers.torrentList().addTorrent(pasteValue)
+  }
 
   update()
 }

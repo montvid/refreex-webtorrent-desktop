@@ -330,11 +330,14 @@ textarea,
   transition: -webkit-filter 0.1s ease-out;
   position: relative;
   animation: fadein 0.5s;
+  display: inline-grid
 }
 
 .torrent,
 .torrent-placeholder {
-  height: 100px;
+  height: 20vh;
+  width: 20vh;
+  margin: 2px;
 }
 
 .torrent:not(:last-child) {
@@ -468,7 +471,10 @@ body.drag .app::after {
  */
 
 .torrent.selected {
-  height: auto;
+  /* height: auto; */
+  height: 100%;
+  width: 88%;
+  display: block !important;
 }
 
 .torrent-details {
@@ -541,7 +547,7 @@ body.drag .app::after {
 .player {
   position: absolute;
   width: 100%;
-  height: 100%;
+  /* height: 100%; */
   background-color: #000;
 }
 
@@ -966,4 +972,30 @@ video::-webkit-media-text-track-container {
 
 .control * {
   cursor: default !important;
+}
+
+.playlist-selected {
+  color: yellowgreen;
+}
+
+.toolbar {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  width: 180px;
+  background-color: #0a0303;
+  height: 91%; /* Full height */
+  position: fixed; /* Make it stick, even on scroll */
+  overflow: auto; /* Enable scrolling if the sidenav has too much content */
+}
+
+.torrent-list {
+  /* //DELETE AND DO SOMETHING GOOD */
+  width: 92%; 
+  margin-left: 11.4rem;
+    /* //DELETE AND DO SOMETHING GOOD */
+}
+
+.green {
+  color: green
 }
