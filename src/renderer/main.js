@@ -36,6 +36,7 @@ const telemetry = require('./lib/telemetry')
 const sound = require('./lib/sound')
 const TorrentPlayer = require('./lib/torrent-player')
 const PlaylistRefreex = require('./lib/playlist-refreex')
+const DatProtocol = require('./lib/dat-protocol')
 
 // Perf optimization: Needed immediately, so do not lazy load it below
 const TorrentListController = require('./controllers/torrent-list-controller')
@@ -561,7 +562,8 @@ function onPaste (e) {
     playlistObj.torrents.forEach(el => {
       controllers.torrentList().addTorrent(el.infoHash)
     })
-    
+  } else if (DatProtocol.isDatProtocolUrl(pasteValue)) {
+    controllers.playlistList().addDatProtocolPlaylist(pasteValue)
   } else {
     controllers.torrentList().addTorrent(pasteValue)
   }

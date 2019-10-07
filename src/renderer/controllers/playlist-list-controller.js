@@ -5,6 +5,7 @@ const config = require('../../config')
 
 const { dispatch } = require('../lib/dispatcher')
 const { readPlaylistFile } = require('../lib/playlist-refreex')
+const { addDatProtocolUrl, connectMyOwnPlaylistFolderInDatNetwork } = require('../lib/dat-protocol')
 
 //TODO: The same function is on torrent-list-controller.js refactor somehow
 // and share the function.
@@ -28,6 +29,8 @@ module.exports = class PlaylistListController {
         if (!fs.existsSync(config.PLAYLIST_PATH)) {
             fs.mkdirSync(config.PLAYLIST_PATH);
         }
+
+        // connectMyOwnPlaylistFolderInDatNetwork()
 
         this.state.saved.allPlaylists = this.getAllPlaylists()
 
@@ -57,6 +60,10 @@ module.exports = class PlaylistListController {
                 this.state.saved.allPlaylists = this.getAllPlaylists()
             })
         })
+    }
+
+    addDatProtocolPlaylist(datProtocolStringUrl) {
+        addDatProtocolUrl(datProtocolStringUrl)
     }
 
     getAllPlaylists() {
@@ -97,6 +104,7 @@ module.exports = class PlaylistListController {
                 //TODO: Delete this from here and do it better?
                 //We are reloading the state of allPlaylist to render them
                 this.state.saved.allPlaylists = this.getAllPlaylists()
+
                 dispatch('stateSave')
             })
         })

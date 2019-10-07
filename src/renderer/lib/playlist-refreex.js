@@ -23,7 +23,7 @@ function isJson(str) {
 function isRefreexPlaylist (file) {
   const isPlaylistFile = getFileExtension(file) === '.json'
   const isValidPlaylist = typeof file === 'string' && isValidRefreexPlaylist(file)
-  
+
   return isPlaylistFile || isValidPlaylist
 }
 

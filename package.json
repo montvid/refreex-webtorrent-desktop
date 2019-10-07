@@ -21,6 +21,7 @@
     "chromecasts": "^1.9.1",
     "cp-file": "^7.0.0",
     "create-torrent": "^4.4.1",
+    "dat": "^13.13.1",
     "debounce": "^1.2.0",
     "deep-equal": "^1.1.0",
     "dlnacasts": "^0.1.0",
