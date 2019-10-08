@@ -19,7 +19,8 @@ module.exports = class Player extends React.Component {
       <div
         className='player'
         onWheel={handleVolumeWheel}
-        onMouseMove={dispatcher('mediaMouseMoved')}>
+        onMouseMove={dispatcher('mediaMouseMoved')}
+      >
         {renderMedia(state)}
         {showControls ? renderPlayerControls(state) : null}
       </div>
@@ -121,7 +122,8 @@ function renderMedia (state) {
     <div
       key='letterbox'
       className='letterbox'
-      onMouseMove={dispatcher('mediaMouseMoved')}>
+      onMouseMove={dispatcher('mediaMouseMoved')}
+    >
       {mediaTag}
       {/* {renderOverlay(state)} */}
     </div>
@@ -139,16 +141,19 @@ function renderMedia (state) {
 
   function onCanPlay (e) {
     const elem = e.target
+
+    if (elem.readyState < HTMLMediaElement.HAVE_FUTURE_DATA) return
     if (state.playing.type === 'video' &&
       elem.webkitVideoDecodedByteCount === 0) {
       dispatch('mediaError', 'Video codec unsupported')
     } else if (elem.webkitAudioDecodedByteCount === 0) {
-      
-      // Nasty patch to avoid entering here for flac files, we need to address it better.
-      if (!elem.src.includes('.flac')) {
+
+      // Nasty patch to avoid entering here for valid files, we need to address it better.
+      const audioExtensions = ['.aac', '.amr', '.alac', '.flac', '.mp3', '.oga', '.ogg', '.opus', '.wav', '.webm'];
+      if (audioExtensions.includes(elem.src)) {
         dispatch('mediaError', 'Audio codec unsupported')
       }
-
+      
     } else {
       dispatch('mediaSuccess')
       elem.play()
