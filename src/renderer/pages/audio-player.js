@@ -563,7 +563,7 @@ function renderPlayerControls (state) {
       onMouseEnter={dispatcher('mediaControlsMouseEnter')}
       onMouseLeave={dispatcher('mediaControlsMouseLeave')}>
       {elements}
-      {/* {renderCastOptions(state)} */}
+      {renderCastOptions(state)}
     </div>
   )
 
