@@ -266,7 +266,8 @@ table {
 }
 
 .create-torrent {
-  margin-left: 200px
+  padding: 10px 25px;
+  overflow: hidden;
 }
 
 .create-torrent .torrent-attribute {

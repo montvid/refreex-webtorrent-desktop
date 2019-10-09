@@ -71,13 +71,15 @@ class App extends React.Component {
       darkMuiTheme = getMuiTheme(darkBaseTheme)
     }
     
+    const playlistList = state.location.url() === "home" ? <PlaylistList state={state}></PlaylistList> : '';
+    
     return (
       <MuiThemeProvider muiTheme={darkMuiTheme}>
         <div className={'app ' + cls.join(' ')}>
           <Header state={state} />
           {this.getErrorPopover()}
           <div key='content' className='content'>
-            <PlaylistList state={state}></PlaylistList>
+            {playlistList}
             {this.getView()}
           </div>
           <AudioPlayer state={state}></AudioPlayer>
