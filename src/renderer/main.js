@@ -217,7 +217,8 @@ function lazyLoadCast () {
 // 3. dispatch - the event handler calls dispatch(), main.js sends it to a controller
 // 4. controller - the controller handles the event, changing the state object
 function update () {
-  controllers.playback().showOrHidePlayerControls()
+  // We don't need to do this for music :)
+  // controllers.playback().showOrHidePlayerControls()
   app.setState(state)
   updateElectron()
 }

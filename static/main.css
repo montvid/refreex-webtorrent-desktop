@@ -266,7 +266,7 @@ table {
 }
 
 .create-torrent {
-  padding: 10px 25px;
+  padding: 0% 14%;
   overflow: hidden;
 }
 
@@ -998,6 +998,11 @@ video::-webkit-media-text-track-container {
 
 .green {
   color: green;
+}
+
+.header-text {
+  color: #e77bff;
+  font-size: 9px;
 }
 
 .file-playing {
