@@ -997,5 +997,11 @@ video::-webkit-media-text-track-container {
 }
 
 .green {
-  color: green
+  color: green;
+}
+
+.file-playing {
+  color: yellow;
+  background-color: #0a0303;
+  opacity: 0.6;
 }

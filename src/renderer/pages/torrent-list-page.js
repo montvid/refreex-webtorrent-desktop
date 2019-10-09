@@ -373,12 +373,19 @@ module.exports = class TorrentList extends React.Component {
           iconPlaylist = 'playlist_add'
           handleClickPlaylist = dispatcher('addSongToPlaylist', infoHash, file)
         }
+
+        //With this line of code we know if this is the file that we are playing so we can put another color in the row
+        let isFilePlaying = state.playing.fileName === file.name
+
         // TODO: add a css 'disabled' class to indicate that a file cannot be opened/streamed
         let rowClass = ''
+        let rowFilePlayingClass = ''
         if (!isSelected) rowClass = 'disabled' // File deselected, not being torrented
         if (!isDone && !isPlayable) rowClass = 'disabled' // Can't open yet, can't stream
+        if (isFilePlaying) rowFilePlayingClass = 'file-playing' // Some distinct color if the file is the one that is playing now
+
         return (
-          <tr key={index}>
+          <tr className={rowFilePlayingClass} key={index}>
             <td className='col-icon' onClick={handleClickPlaylist}>
               <i className='icon'>{iconPlaylist}</i>
             </td>
@@ -386,7 +393,7 @@ module.exports = class TorrentList extends React.Component {
               {/* {positionElem} */}
               <i className='icon'>{icon}</i>
             </td>
-            <td className={'col-name ' + rowClass} onClick={handleClick}>
+            <td className={'col-name ' + rowClass + rowFilePlayingClass} onClick={handleClick}>
               {file.name}
             </td>
             <td className={'col-progress ' + rowClass}>
