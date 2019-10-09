@@ -551,8 +551,11 @@ function onPaste (e) {
   if (editableHtmlTags.has(e.target.tagName.toLowerCase())) return
   pasteValue = electron.clipboard.readText()
 
-  //First we check if is Json or not to add a playlist or a torrent
-  if (PlaylistRefreex.isRefreexPlaylist(pasteValue)) {
+  // First check if is dat protocol link
+  if (DatProtocol.isDatProtocolUrl(pasteValue)) {
+    controllers.playlistList().addDatProtocolPlaylist(pasteValue)
+  } else if (PlaylistRefreex.isRefreexPlaylist(pasteValue)) { 
+  // We check if is Json or not to add a playlist or a torrent
     let playlistObj = JSON.parse(pasteValue)
 
     // Then we verify if has some content otherwhise we don't want it
@@ -562,8 +565,6 @@ function onPaste (e) {
     playlistObj.torrents.forEach(el => {
       controllers.torrentList().addTorrent(el.infoHash)
     })
-  } else if (DatProtocol.isDatProtocolUrl(pasteValue)) {
-    controllers.playlistList().addDatProtocolPlaylist(pasteValue)
   } else {
     controllers.torrentList().addTorrent(pasteValue)
   }

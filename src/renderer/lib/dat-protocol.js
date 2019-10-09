@@ -4,11 +4,13 @@ const Dat = require('dat-node')
 const parse = require('url').parse
 
 function connectMyOwnPlaylistFolderInDatNetwork() {
-    console.log(666, 'asdasd')
     if (!fs.existsSync(config.DAT_PLAYLIST_PATH)) {
         fs.mkdirSync(config.DAT_PLAYLIST_PATH);
     }
 
+    if (!fs.existsSync(config.PLAYLIST_PATH)) {
+        fs.mkdirSync(config.PLAYLIST_PATH);
+    }
     // 1. We select our playlist folder to share all our playlist created by us in the Dat Network.
     Dat(config.PLAYLIST_PATH, function (err, dat) {
         if (err) throw err
@@ -32,7 +34,24 @@ function isDatProtocolUrl(urlString) {
 
 function addDatProtocolUrl(datProtocolUrl) {
     const urlObject = parseDatURL(datProtocolUrl)
-    console.log(1234, urlObject);
+
+    // 1. Tell Dat where to download the files
+    Dat(config.DAT_PLAYLIST_PATH, {
+        // 2. Tell Dat what link I want
+        key: urlObject.host, // (a 64 character hash from above)
+        sparse: true
+    }, function (err, dat) {
+        if (err) throw err
+
+        // 3. Join the network & download (files are automatically downloaded)
+        dat.joinNetwork()
+
+        // Manually download files via the hyperdrive API:
+        dat.archive.readFile(urlObject.path, function (err, content) {
+            console.log('A new playlist from a dat-protocol link was added', datProtocolUrl);
+            console.log(content)
+        })
+    })
 }
 
 // To understand better this function read the first part of this https://datprotocol.github.io/how-dat-works/

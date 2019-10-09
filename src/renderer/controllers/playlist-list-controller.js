@@ -26,11 +26,14 @@ module.exports = class PlaylistListController {
     constructor(state) {
         this.state = state
 
+        // todo: remove from here and dat protocol and use it in the start of the app.
+        if (!fs.existsSync(config.DAT_PLAYLIST_PATH)) {
+            fs.mkdirSync(config.DAT_PLAYLIST_PATH);
+        }
+    
         if (!fs.existsSync(config.PLAYLIST_PATH)) {
             fs.mkdirSync(config.PLAYLIST_PATH);
         }
-
-        // connectMyOwnPlaylistFolderInDatNetwork()
 
         this.state.saved.allPlaylists = this.getAllPlaylists()
 
@@ -63,20 +66,28 @@ module.exports = class PlaylistListController {
     }
 
     addDatProtocolPlaylist(datProtocolStringUrl) {
-        addDatProtocolUrl(datProtocolStringUrl)
+        console.log('Disabled for now, I need to work more into this.')
+        // addDatProtocolUrl(datProtocolStringUrl)
     }
 
     getAllPlaylists() {
         var files = fs.readdirSync(config.PLAYLIST_PATH);
+        // var filesDatFolder = fs.readdirSync(config.DAT_PLAYLIST_PATH);
     
         //We just want json files to avoid rubbish or system files.
         files = files.filter(file => file.endsWith('.json'))
+        // filesDatFolder = filesDatFolder.filter(file => file.endsWith('.json'))
     
         const playlists = []
         files.forEach(file => {
             file = file.replace('.json', '')
             playlists.push(file);
         });
+
+        // filesDatFolder.forEach(file => {
+        //     file = file.replace('.json', '')
+        //     playlists.push(file);
+        // });
     
         return playlists;
     }
